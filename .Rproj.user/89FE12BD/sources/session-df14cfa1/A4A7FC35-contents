@@ -1,0 +1,109 @@
+---
+title: "Worksheet 5"
+author: "Roman Ahmad Zeia - 100821974"
+output:
+  html_document:
+    df_print: paged
+---
+
+## **Part 1**
+
+### **1.** Install the package 'car' and 'tidyverse' and basic setup for environment
+```{r, echo=FALSE}
+rm(list=ls())
+library(tidyverse)
+library(car)
+```
+
+
+### **2.** Load the data 'TitanicSurvival'
+```{r}
+data("TitanicSurvival")
+```
+
+### **3.** Convert data to a tibble
+```{r}
+d <- as_tibble(TitanicSurvival)
+```
+
+### **4..** Remove rows with NA in columns passengerClass and survived
+```{r}
+d <- d[!is.na(d$passengerClass),]
+```
+
+### **5.** Summarise the data by counting the numbers of people in passengerClass for each survived
+```{r}
+df_q1_sum <- count(d, passengerClass, survived)
+```
+
+### **6.** Create a stacked bar chart with x = passengerClass, y = total count, fill = survived. Fill the bars with the palette ‘Set2’ from ColorBrewer. Apply theme minimal.
+```{r}
+ggplot(df_q1_sum, aes(x = passengerClass, y = n, fill = survived)) +
+  geom_bar(stat = "identity") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal()
+```
+
+### **7.** Convert the bars to proportions
+```{r}
+ggplot(df_q1_sum, aes(x = passengerClass, y = n, fill = survived)) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal()
+```
+
+### **8.** Format the y‐axis as percent
+```{r}
+ggplot(df_q1_sum, aes(x = passengerClass, y = n, fill = survived)) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_fill_brewer(palette = "Set2") +
+  scale_y_continuous(labels = scales::percent) +
+  theme_minimal()
+
+```
+
+### **9.** Label axes 
+```{r}
+ggplot(df_q1_sum, aes(x = passengerClass, y = n, fill = survived)) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_fill_brewer(palette = "Set2") +
+  scale_y_continuous(labels = scales::percent) +
+  labs(x = "Passenger Class", 
+       y = "Proportion",
+       title = "Survival Proportions by Passenger Class",
+       fill = "Survived?") +
+  theme_minimal()
+```
+
+## **Part 2**
+
+### **1.** Summarise the total counts for each passengerClass only
+```{r}
+df_q2_sum <- count(d, passengerClass)
+```
+
+### **2.** Make a pie chart that shows the proportions of passengerClass. Apply the 'Purples' palette from ColorBrewer. Remove axis labels. Reverse the ordering of the pie chart
+```{r}
+ggplot(df_q2_sum, aes(x = "", y = n, fill = passengerClass)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start = 0) +
+  scale_fill_brewer(palette = "Purples") +
+  scale_y_reverse() +
+  labs(x = "", y = "")
+
+```
+
+### **3.** Apply a minimal theme. Remove axis text, axis ticks, and the panel grid lines
+```{r}
+ggplot(df_q2_sum, aes(x = "", y = n, fill = passengerClass)) +
+  geom_bar(stat = "identity") +
+  coord_polar("y", start = 0) +
+  scale_fill_brewer(palette = "Purples") +
+  scale_y_reverse() +
+  labs(title = "Distribution of Passengers by Class", x = "", y = "") +
+  theme_minimal() +
+  theme(axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.grid = element_blank())
+```
+

@@ -1,0 +1,39 @@
+"0","race_counts <- races |> "
+"0","  group_by(circuitId) |> "
+"0","  summarize(race_count = n())"
+"0",""
+"0","# Merge with the circuits dataset to get circuit names"
+"0","race_counts_with_names <- race_counts |> "
+"0","  left_join(circuits, by = ""circuitId"") |> "
+"0","  arrange(desc(race_count))"
+"0",""
+"0","# Filter to get the top 10 circuits with the most races"
+"0","top_10_circuits <- race_counts_with_names |> "
+"0","  head(10)"
+"0",""
+"0","# Plot the bar chart for top 10 circuits"
+"0","ggplot(top_10_circuits, aes(y = reorder(name, -race_count), x = race_count, fill = name)) +"
+"0","  geom_bar(stat = ""identity"") +"
+"0","  scale_x_continuous(n.breaks = 7) +"
+"0","   scale_y_reverse()+"
+"0","  labs("
+"0","    title = ""Top 10 Circuits with the Most Races Hosted"","
+"0","    y = ""Circuit"","
+"0","    x = ""Number of Races"") +"
+"0","  theme_minimal() "
+"1","[1m[33mError[39m in `scale_y_reverse()`:[22m
+[38;5;255m[33m![38;5;255m Discrete values supplied to continuous scale.
+[36mℹ[38;5;255m Example values: [34mNA[38;5;255m, [34mNA[38;5;255m, [34mNA[38;5;255m, [34mNA[38;5;255m, and [34mNA[38;5;255m[39m
+Backtrace:
+[90m  1. [39m[1mbase[22m (local) `<fn>`(x)
+[90m  2. [39mggplot2:::print.ggplot(x)
+[90m  4. [39mggplot2:::ggplot_build.ggplot(x)
+[90m  5. [39mlayout$train_position(data, scale_x(), scale_y())
+[90m  6. [39mggplot2 (local) train_position(..., self = self)
+     ...
+[90m 11. [39mggplot2 (local) FUN(X[[i]], ...)
+[90m 12. [39m[1mbase[22m::lapply(...)
+[90m 13. [39mggplot2 (local) FUN(X[[i]], ...)
+[90m 14. [39mscales[[i]][[method]](data[[var]][scale_index[[i]]])
+[90m 15. [39mggplot2 (local) train(..., self = self)
+"

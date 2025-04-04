@@ -1,0 +1,3 @@
+"0","#Renaming races due to conflict issues"
+"0","races <- races %>%"
+"0","  rename(race_name = name)"

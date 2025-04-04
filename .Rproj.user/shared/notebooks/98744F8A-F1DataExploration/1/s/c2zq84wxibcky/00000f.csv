@@ -1,0 +1,5 @@
+"0","#Get counts of each status from results.csv"
+"0","status_counts <- results |> "
+"0","  group_by(statusId) |> "
+"0","  summarise(count = n()) |> "
+"0","  left_join(status, by = ""statusId"")"
